@@ -8,7 +8,7 @@ import { AuthContext, AuthProvider } from './Components/Context/AuthContext';
 export default function App() {
   
   return (
-    <SafeAreaView style={styles.container}>
+    
 
       <NavigationContainer>
         
@@ -20,7 +20,7 @@ export default function App() {
 
       </NavigationContainer>
 
-    </SafeAreaView>
+    
   );
 }
 
