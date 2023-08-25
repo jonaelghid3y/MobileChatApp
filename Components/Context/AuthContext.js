@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
 
     const [accessToken, setAccessToken] = useState(null);
+    const [message, setMessage] = useState('');
 
     const handleLogin = async (username, password) => {
        
@@ -32,6 +33,9 @@ export const AuthProvider = ({ children }) => {
                 await AsyncStorage.setItem('accessToken', data.data.accessToken)
                 setAccessToken(data.data.accessToken)
             }
+            else{
+                console.log("fel")
+            }
 
           
         
@@ -39,6 +43,29 @@ export const AuthProvider = ({ children }) => {
             console.log(error)
         }
     }
+    const handleRegister = async (username, password) => {
+       
+        try {
+            const response = await fetch('https://chat-api-with-auth.up.railway.app/auth/register',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                })
+            const data = await response.json()
+            console.log(data)
+            setMessage(data.message)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 
     const handleLogout = async () => {
@@ -65,7 +92,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         isLoggedIn();
-        handleLogin();
+        
+       
     }, [])
 
 
@@ -73,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
 
-        <AuthContext.Provider value={{ accessToken, handleLogin, handleLogout }}>
+        <AuthContext.Provider value={{ accessToken, handleLogin, handleLogout, handleRegister,message }}>
             {children}
         </AuthContext.Provider>
     )
