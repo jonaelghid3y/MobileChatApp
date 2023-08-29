@@ -10,7 +10,7 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const { handleRegister,registerMessage} = useContext(AuthContext);
+    const { handleRegister,registerMessage,succsesMessage} = useContext(AuthContext);
   return (
 
     <LinearGradient colors={['#1c96c5', '#84cdee', ]} start={{ x: 1, y: 0 }}
@@ -30,18 +30,15 @@ export default function Register() {
                 />
                 <TextInput
                     placeholderTextColor={'#e6e6e6'}
-                    
                     style={styles.formpassword}
-                    
                     placeholder='Password'
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry={true} />
                      
-              
-
             </View>
-            <Text style={styles.error}>{registerMessage}</Text>
+            {registerMessage}
+            {succsesMessage}
 
             <TouchableOpacity style={styles.button} onPress={() => handleRegister(username, password)} ><Text style={styles.buttontext}>Sign upp</Text></TouchableOpacity>
            
@@ -58,10 +55,23 @@ const styles = StyleSheet.create({
         gap: 10
     },
     error:{
-
-        color:'red'
+        color: '#D8000C',
+        backgroundColor: '#FFBABA',
+        padding: 10
 
     },
+    succses:{
+    
+        color: '#270',
+        backgroundColor: '#DFF2BF',
+     
+        
+       
+       
+      
+ 
+    }
+    ,
     formcontainer: {
         display: 'flex',
 
@@ -143,7 +153,7 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        marginTop: 30,
+        marginTop: 90,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

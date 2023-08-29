@@ -48,7 +48,7 @@ export default function Login({navigation}) {
               
 
             </View>
-            <Text style={styles.error}>{logginMessage}</Text>
+           {logginMessage}
 
             <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)} ><Text style={styles.buttontext}>sign in</Text></TouchableOpacity>
            
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        marginTop: 30,
+        marginTop: 80,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
