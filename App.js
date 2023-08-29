@@ -12,7 +12,7 @@ import AppNavigator from './Components/Navigators/AppNavigator';
 export default function App() {
   
   return (
-    <SafeAreaView style={styles.container}>
+    
 
       <NavigationContainer>
 
@@ -24,7 +24,7 @@ export default function App() {
 
       </NavigationContainer>
 
-    </SafeAreaView>
+    
   );
 }
 

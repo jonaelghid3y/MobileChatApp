@@ -1,52 +1,70 @@
 import React from 'react'
-import { View,TextInput, TouchableOpacity, Text, StyleSheet} from 'react-native'
-import { useContext } from 'react';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native'
+import { useContext, useState } from 'react';
 import { AuthContext } from './Context/AuthContext';
 
-export default function Login({navigation}) {
-    const {accessToken, handleLogin} = useContext(AuthContext);
+export default function Login({ navigation }) {
 
-    // handleLogin(username, password)
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-  return (
-    
-    <View style={styles.container}>
-        <Text style={styles.title}>Logg in</Text>
-        <TextInput style={styles.form} placeholder='Username'></TextInput>
-        <TextInput style={styles.form} placeholder='Password'></TextInput>
-        <TouchableOpacity style={styles.button} ><Text style={styles.text}>sign in</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.button} ><Text style={styles.text} onPress={() => navigation.navigate('Register')}>register</Text></TouchableOpacity>
-    </View>
-  )
+    const { handleLogin,message } = useContext(AuthContext);
+
+    console.log(username,password)
+
+   
+
+    return (
+
+        <View style={styles.container}>
+            <Text style={styles.title}>Logg in</Text>
+            <TextInput
+                style={styles.form}
+                placeholder='Username'
+                value={username}
+                onChangeText={setUsername}
+            />
+            <TextInput
+                style={styles.form}
+                placeholder='Password'
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true} />
+                <Text>{message}</Text>
+
+            <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)} ><Text style={styles.text}>sign in</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.button} ><Text style={styles.text} onPress={() => navigation.navigate('Register')}>register</Text></TouchableOpacity>
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      width: 415,
-      backgroundColor: 'lightgrey',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 10
+        flex: 1,
+        width: 415,
+        backgroundColor: 'lightgrey',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10
     },
-    
-    form:{
+
+    form: {
         borderWidth: 1,
 
     },
-    text:{
+    text: {
         color: 'white',
         textAlign: 'center',
-        
+
     },
-    button:{
+    button: {
         borderWidth: 1,
         borderRadius: 2,
         width: 60,
         height: 20,
         textAlign: 'center',
-        
+
 
     }
-    
-  });
-  
+
+});
+
