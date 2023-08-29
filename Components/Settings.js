@@ -2,58 +2,15 @@ import React from 'react'
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
 import { useContext, useState } from 'react';
 import { AuthContext } from './Context/AuthContext';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 
+export default function Settings() {
+    const { handleLogout } = useContext(AuthContext);
+  return (
+    <View>
+         <TouchableOpacity style={styles.button} onPress={() => handleLogout()} ><Text style={styles.buttontext}>Log out</Text></TouchableOpacity>
 
-
-
-export default function Login({navigation}) {
-  
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const { handleLogin, logginMessage } = useContext(AuthContext);
-
-    // setMessage('')
-
-
-
-    return (
-
-        <LinearGradient colors={['#1c96c5', '#84cdee', ]} start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 1 }} style={styles.container}>
-            <Text style={styles.title}>CHAPP</Text>
-            <MaterialCommunityIcons style={styles.icon} name="message-processing-outline" size={100}  color="white" />
-            <MaterialCommunityIcons style={styles.iconShadow}name="message" size={90} />
-            <View style={styles.formcontainer}>
-                <Text style={styles.text}>LOGIN</Text>
-                <TextInput
-                    placeholderTextColor={'#e6e6e6'}
-                    style={styles.form}
-                    placeholder='Username'
-                    value={username}
-                    onChangeText={setUsername}
-                />
-                <TextInput
-                    placeholderTextColor={'#e6e6e6'}
-
-                    style={styles.formpassword}
-                    
-                    placeholder='Password'
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true} />
-                     <TouchableOpacity ><Text style={styles.register} onPress={() => navigation.navigate('Register')}>register here</Text></TouchableOpacity>
-              
-
-            </View>
-           {logginMessage}
-
-            <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)} ><Text style={styles.buttontext}>sign in</Text></TouchableOpacity>
-           
-        </LinearGradient>
-    )
+    </View>
+  )
 }
 const styles = StyleSheet.create({
     container: {
@@ -64,6 +21,24 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         gap: 10
     },
+    error:{
+        color: '#D8000C',
+        backgroundColor: '#FFBABA',
+        padding: 10
+
+    },
+    succses:{
+    
+        color: '#270',
+        backgroundColor: '#DFF2BF',
+     
+        
+       
+       
+      
+ 
+    }
+    ,
     formcontainer: {
         display: 'flex',
 
@@ -77,7 +52,7 @@ const styles = StyleSheet.create({
         width: 300,
         shadowColor: "#000",
         borderColor: 'white',
-        borderWidth: 1.5,
+        borderWidth: 2,
         paddingLeft: 10,
         color: 'white',
         
@@ -94,11 +69,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: 'white',
     },
-    error:{
-
-        color:'red'
-
-    },
     icon: {
         marginTop: 40,
         marginBottom: 80,
@@ -114,7 +84,7 @@ const styles = StyleSheet.create({
     },
     iconShadow: {
         position: 'absolute',
-        top: 198,
+        top: 190,
         right: 145,
         opacity: 0.15,
         color:'#C800FF',
@@ -146,15 +116,14 @@ const styles = StyleSheet.create({
     register:{
         color: 'white',
         textDecorationLine: 'underline'
-       
+        
 
     },
     button: {
-        marginTop: 80,
+        marginTop: 90,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        
      
         
         fontSize: 30,
@@ -188,4 +157,5 @@ const styles = StyleSheet.create({
     }
 
 });
+
 

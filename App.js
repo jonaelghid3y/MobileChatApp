@@ -8,17 +8,34 @@ import 'react-native-gesture-handler';
 import AppNavigator from './Components/Navigators/AppNavigator';
 
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback } from 'react';
 
-export default function App() {
+export default function App({navigation}) {
+
+  const [fontsLoaded] = useFonts({
+    'Nico': require('./fonts/NicoMoji-Regular.ttf'),
+
+  });
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   
   return (
     
 
       <NavigationContainer>
-
-          <AuthProvider>
+        
+        <AuthProvider navigation={navigation} >
           
-          <RootNavigator />
+          <RootNavigator onLayout={onLayoutRootView} />
        
         </AuthProvider>
 
