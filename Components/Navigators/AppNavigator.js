@@ -1,7 +1,4 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Settings } from 'react-native';
-import Register from '../Register';
-import Login from '../Login';
 import Chat from '../Chat';
 import UserSettings from '../UserSettings';
 
