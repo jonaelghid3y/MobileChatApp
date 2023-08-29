@@ -1,14 +1,18 @@
 import React, { createContext, useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
+
 export const AuthContext = createContext()
 
 
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children}) => {
 
     const [accessToken, setAccessToken] = useState(null);
-    const [message, setMessage] = useState('');
+    const [registerMessage, setResgisterMessage] = useState('');
+    const[logginMessage, setLogginMessage] = useState('')
 
     const handleLogin = async (username, password) => {
        
@@ -34,7 +38,11 @@ export const AuthProvider = ({ children }) => {
                 setAccessToken(data.data.accessToken)
             }
             else{
-                console.log("fel")
+
+                setLogginMessage(data.message)
+                console.log("hej")
+                console.log(data.message)
+                
             }
 
           
@@ -58,8 +66,22 @@ export const AuthProvider = ({ children }) => {
                     })
                 })
             const data = await response.json()
-            console.log(data)
-            setMessage(data.message)
+            console.log(data.status)
+            if(data.status !== 500){
+                
+                
+
+                
+
+                setResgisterMessage(data.message)
+                navigation.navigate('Login')
+
+            }
+            
+           
+        else{
+            setResgisterMessage('You need an username to register')
+        }
 
         } catch (error) {
             console.log(error)
@@ -92,6 +114,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         isLoggedIn();
+    
+      
         
         
        
@@ -102,7 +126,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
 
-        <AuthContext.Provider value={{ accessToken, handleLogin, handleLogout, handleRegister,message }}>
+        <AuthContext.Provider value={{ accessToken, handleLogin, handleLogout, handleRegister,registerMessage, setResgisterMessage, logginMessage,setLogginMessage }}>
             {children}
         </AuthContext.Provider>
     )
