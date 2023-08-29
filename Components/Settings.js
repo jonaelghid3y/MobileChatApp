@@ -6,7 +6,7 @@ import { AuthContext } from './Context/AuthContext';
 export default function Settings() {
     const { handleLogout } = useContext(AuthContext);
   return (
-    <View>
+    <View style={styles.container}>
          <TouchableOpacity style={styles.button} onPress={() => handleLogout()} ><Text style={styles.buttontext}>Log out</Text></TouchableOpacity>
 
     </View>
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         width: 415,
         backgroundColor: 'lightgrey',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         gap: 10
     },
     error:{
