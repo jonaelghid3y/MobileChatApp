@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-function Settings() {
+function UserSettings() {
   return (
     <Text>
       Hello! Wolcome to Settings
@@ -9,4 +9,4 @@ function Settings() {
   )
 }
 
-export default Settings
+export default UserSettings
