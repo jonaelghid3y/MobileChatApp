@@ -9,12 +9,13 @@ import { Text, View,StyleSheet } from 'react-native';
 
 
 
+
 export const AuthContext = createContext()
 
 
 
 export const AuthProvider = ({ children}) => {
-
+    const [chatMessages, setChatMessages] = useState({});
     const navigation = useNavigation();
 
     const [accessToken, setAccessToken] = useState(null);
@@ -115,6 +116,8 @@ export const AuthProvider = ({ children}) => {
         }
     }
 
+    
+
 
 
     const handleLogout = async () => {
@@ -139,22 +142,52 @@ export const AuthProvider = ({ children}) => {
         }
     }
 
+
+    const handleMessages = async () => {
+        try {
+            const response = await fetch('https://chat-api-with-auth.up.railway.app/messages', 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+    
+            const data = await response.json();
+
+        
+        
+        if (data.status === 200) {
+
+            setChatMessages(data.data)
+        
+            
+            // console.log('Unexpected response format:', data);
+        }
+          
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+
+    
+
     useEffect(() => {
         isLoggedIn();
-       
-    
-      
-        
-        
+
        
     }, [])
+
+   
 
 
 
 
     return (
 
-        <AuthContext.Provider value={{ accessToken, handleLogin, handleLogout, handleRegister,registerMessage, setResgisterMessage, logginMessage,setLogginMessage, succsesMessage }}>
+        <AuthContext.Provider value={{ chatMessages, handleMessages, accessToken, handleLogin, handleLogout, handleRegister,registerMessage, setResgisterMessage, logginMessage,setLogginMessage, succsesMessage }}>
             {children}
         </AuthContext.Provider>
     )
