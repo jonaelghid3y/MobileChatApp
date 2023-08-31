@@ -9,6 +9,7 @@ import { Text, View, StyleSheet } from 'react-native';
 
 
 
+
 export const AuthContext = createContext()
 
 
@@ -20,11 +21,12 @@ export const AuthProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
     const [registerMessage, setResgisterMessage] = useState('');
     const [succsesMessage, setSuccsesMessage] = useState('');
-    
     const[firstName, setFirstName] = useState('')
     const[lastName, setLastName] = useState('')
-
+    const[uppdateName, setUppdateName] = useState('')
+    const[uppdateLastName, setUppdateLastName] = useState('')
     const [logginMessage, setLogginMessage] = useState('')
+    const [deleteMessage, setDeleteMessage] = useState('')
 
     const handleLogin = async (username, password) => {
 
@@ -80,6 +82,7 @@ export const AuthProvider = ({ children }) => {
                 })
             const data = await response.json()
             console.log(data.status)
+
             if (data.status === 409) {
 
                 setResgisterMessage(<Text style={styles.error}>{data.message}<Ionicons name="ios-warning" size={18} color="red" /></Text>)
@@ -123,11 +126,14 @@ export const AuthProvider = ({ children }) => {
                  
                 })
             const data = await response.json()
+           
             if(data.status === 200){
-
-                setFirstName(data.data.firstname)
+                
                 setLastName(data.data.lastname)
-                console.log(firstname,lastLame)
+                setFirstName(data.data.firstname)
+
+               
+                
 
             }
             
@@ -138,7 +144,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const handleUserSettings = async (firstName, lastName) => {
+    const handleUserSettings = async (uppdateName, uppdateLastName) => {
 
         try {
             const response = await fetch('https://chat-api-with-auth.up.railway.app/users',
@@ -149,12 +155,48 @@ export const AuthProvider = ({ children }) => {
                         'Authorization': `Bearer ${accessToken}`
                     },
                     body: JSON.stringify({
-                        firstname: firstName,
-                        lastname: lastName
+                        firstname: uppdateName,
+                        lastname: uppdateLastName
                     })
                 })
             const data = await response.json()
-            console.log(data)
+            if(data.status === 200){
+
+                getUserInfo();
+                setUppdateLastName("")
+                setUppdateName("")
+
+            }
+           
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const deleteUser = async () => {
+
+        try {
+            const response = await fetch('https://chat-api-with-auth.up.railway.app/users',
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                   
+                })
+            const data = await response.json()
+            if(data.status === 200){
+                setDeleteMessage(<Text style={styles.error}>Your acount is now deleted<Ionicons name="ios-warning" size={18} color="red" /></Text>)
+                setTimeout(() => {
+                    setDeleteMessage('')
+                    handleLogout()
+                }, 2000);
+              
+
+            }
+           
 
 
         } catch (error) {
@@ -186,7 +228,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         isLoggedIn();
-        getUserInfo();
+        
 
     }, [])
 
@@ -202,6 +244,8 @@ export const AuthProvider = ({ children }) => {
             handleRegister,
             handleUserSettings,
             getUserInfo,
+            deleteUser,
+            deleteMessage,
             registerMessage,
             setResgisterMessage,
             logginMessage,
@@ -209,6 +253,10 @@ export const AuthProvider = ({ children }) => {
             succsesMessage,
             firstName,
             lastName,
+            uppdateName,
+            setUppdateName,
+            uppdateLastName,
+            setUppdateLastName,
             setFirstName,
             setLastName
         }}>
@@ -237,7 +285,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         position: 'absolute',
-        top: 585,
+        top: 590,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
