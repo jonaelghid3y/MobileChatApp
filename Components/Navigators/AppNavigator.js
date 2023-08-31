@@ -1,6 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Chat from '../Chat';
-import UserSettings from '../UserSettings';
 import Settings from '../Settings';
 
 const Drawer = createDrawerNavigator();

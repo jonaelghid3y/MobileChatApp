@@ -4,13 +4,41 @@ import { useContext, useState } from 'react';
 import { AuthContext } from './Context/AuthContext';
 
 export default function Settings() {
-    const { handleLogout } = useContext(AuthContext);
-  return (
-    <View style={styles.container}>
-         <TouchableOpacity style={styles.button} onPress={() => handleLogout()} ><Text style={styles.buttontext}>Log out</Text></TouchableOpacity>
+    const { handleLogout,getUserInfo, handleUserSettings, firstName, setFirstName, setLastName, lastName } = useContext(AuthContext);
 
-    </View>
-  )
+    getUserInfo();
+
+    return (
+        <View style={styles.container}>
+
+            <View style={styles.picturecontainer}>
+                <Image style={styles.img} resizeMode='contain' source={{ uri: 'https://cdn4.iconfinder.com/data/icons/basic-user-interface-elements/700/user-account-profile-human-avatar-face-head--256.png' }}></Image>
+            </View>
+            <TextInput
+                placeholderTextColor={'#e6e6e6'}
+                style={styles.form}
+                placeholder='First name'
+                value={firstName}
+                onChangeText={setFirstName}
+            > {firstName}
+            </TextInput>
+
+
+            <TextInput
+                placeholderTextColor={'#e6e6e6'}
+                style={styles.form}
+                placeholder='Last name'
+                value={lastName}
+                onChangeText={setLastName}
+            >
+                {lastName}
+            </TextInput >
+            <TouchableOpacity style={styles.button} onPress={() => handleUserSettings(firstName, lastName)} ><Text style={styles.buttontext}>Change user info</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => handleLogout()} ><Text style={styles.buttontext}>Log out</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.buttonDelete}  ><Text style={styles.buttontextDelete}>Delete Acount</Text></TouchableOpacity>
+
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     container: {
@@ -18,31 +46,30 @@ const styles = StyleSheet.create({
         width: 415,
         backgroundColor: 'lightgrey',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         gap: 10
     },
-    error:{
-        color: '#D8000C',
-        backgroundColor: '#FFBABA',
-        padding: 10
+    picturecontainer: {
+        marginTop: 60,
+        borderWidth: 1,
+        height: 120,
+        width: 120,
+        borderRadius: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
 
     },
-    succses:{
-    
-        color: '#270',
-        backgroundColor: '#DFF2BF',
-     
-        
-       
-       
-      
- 
-    }
-    ,
+    img: {
+        height: 80,
+        width: 80,
+
+
+    },
+
     formcontainer: {
         display: 'flex',
-
-
 
     },
 
@@ -55,7 +82,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingLeft: 10,
         color: 'white',
-        
+
     },
     formpassword: {
 
@@ -72,7 +99,7 @@ const styles = StyleSheet.create({
     icon: {
         marginTop: 40,
         marginBottom: 80,
-        zIndex: 999 ,
+        zIndex: 999,
         shadowColor: "#000",
         shadowOffset: {
             width: 4,
@@ -87,8 +114,8 @@ const styles = StyleSheet.create({
         top: 190,
         right: 145,
         opacity: 0.15,
-        color:'#C800FF',
-        
+        color: '#C800FF',
+
         shadowColor: "#000",
         shadowOffset: {
             width: 4,
@@ -113,10 +140,10 @@ const styles = StyleSheet.create({
 
 
     },
-    register:{
+    register: {
         color: 'white',
         textDecorationLine: 'underline'
-        
+
 
     },
     button: {
@@ -124,14 +151,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-     
-        
+
+
         fontSize: 30,
-       
-        width: 200,
+
+        width: 150,
         height: 50,
-       
-        backgroundColor: 'white',
+
+        backgroundColor: '#177ca4',
         borderRadius: 10,
         fontFamily: '',
 
@@ -142,16 +169,48 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
+    },
+
+    buttontext: {
+
+
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
 
 
     }
     ,
-    buttontext: {
-     
-        
-        fontSize: 30,
+    buttonDelete: {
+        marginTop: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        backgroundColor: '#FFBABA',
+
+        width: 150,
+        height: 50,
+
+
+        borderRadius: 10,
+        fontFamily: '',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 7,
+            height: 7,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+    },
+    buttontextDelete: {
+
+
+        fontSize: 20,
         textAlign: 'center',
-        color: '#177ca4',
+        color: '#D8000C',
+
 
 
     }
