@@ -14,7 +14,8 @@ export const AuthContext = createContext()
 
 
 
-export const AuthProvider = ({ children }) => {
+    export const AuthProvider = ({ children }) => {
+    const [chatMessages, setChatMessages] = useState({});
 
     const navigation = useNavigation();
 
@@ -226,6 +227,37 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+
+    const handleMessages = async () => {
+        try {
+            const response = await fetch('https://chat-api-with-auth.up.railway.app/messages', 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+    
+            const data = await response.json();
+
+        
+        
+        if (data.status === 200) {
+
+            setChatMessages(data.data)
+        
+            
+            // console.log('Unexpected response format:', data);
+        }
+          
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    
+
     useEffect(() => {
         isLoggedIn();
         
@@ -233,11 +265,11 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
 
-
-
     return (
 
         <AuthContext.Provider value={{
+            chatMessages, 
+            handleMessages,
             accessToken,
             handleLogin,
             handleLogout,
