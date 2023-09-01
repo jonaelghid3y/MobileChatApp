@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '../Settings';
-import Camera from '../MobileCamera';
+import MobileCamera from '../MobileCamera';
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { View,StyleSheet} from 'react-native';
@@ -23,7 +23,7 @@ export function BottomTabNavigator() {
           </View>
           
         ),}} />
-      <Tab.Screen name="Camera" component={Camera}
+      <Tab.Screen name="Camera" component={MobileCamera}
       options={{
         tabBarLabel: '',
         tabBarIcon: ({ focused, color, size }) => (

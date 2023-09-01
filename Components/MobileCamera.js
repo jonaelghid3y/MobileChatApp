@@ -97,10 +97,10 @@ export default function MobileCamera() {
       >
         <View style={styles.buttonsTopContainer}>
           <TouchableOpacity style={styles.generalButton} >
-            <FontAwesome name="refresh" size={24} color="white" onPress={() => toggleCameraType()}/>
+            <FontAwesome name="refresh" size={18} color="white" onPress={() => toggleCameraType()}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.generalButton}>
-            <Entypo name="flash" size={24} color={flash === FlashMode.on ? "yellow" : "white"} onPress={() => toggleFlash()}/>
+            <Entypo name="flash" size={18} color={flash === FlashMode.on ? "yellow" : "white"} onPress={() => toggleFlash()}/>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonsBottomContainer}>
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'flex-end',
     justifyContent: 'space-evenly',
-    gap:  300,
+    gap: 295,
+    marginRight: 20,
     marginTop: 20,
   },
   buttonsBottomContainer: {
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     marginRight: 5,
   },
   cameraButton: {
