@@ -20,7 +20,7 @@ function Chat() {
     handleMessages();
   }, []);
 
-  console.log(chatMessages)
+
 
  
 

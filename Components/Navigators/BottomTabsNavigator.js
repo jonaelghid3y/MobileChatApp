@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '../Settings';
-import Camera from '../Camera';
+import Camera from '../MobileCamera';
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { View,StyleSheet} from 'react-native';
