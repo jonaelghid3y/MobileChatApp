@@ -9,10 +9,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Settings() {
-    const { handleLogout, getUserInfo, handleUserSettings, firstName,lastName, uppdateName, setUppdateName, uppdateLastName, setUppdateLastName, deleteUser, deleteMessage } = useContext(AuthContext);
+
+    const { handleLogout, getUserInfo, handleUserSettings, firstName, lastName, uppdateName, setUppdateName, uppdateLastName, setUppdateLastName, deleteUser, deleteMessage } = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
-
-
 
     getUserInfo();
 
@@ -29,25 +28,32 @@ export default function Settings() {
                 <View style={styles.form}>
                     <Text style={styles.text} >{firstName}</Text>
                 </View>
-
             </View>
+
             <View>
                 <Text style={styles.text}>Last name</Text>
                 <View style={styles.form}>
 
                     <Text style={styles.text}  >{lastName}</Text>
                 </View>
-
             </View>
+
             <View style={styles.buttoncontainer}>
+
                 <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
                     <Text style={styles.buttontext}>Edit user <AntDesign name="edit" size={24} color="white" /> </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={() => handleLogout()} ><Text style={styles.buttontext}>Log out</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => handleLogout()} >
+                    <Text style={styles.buttontext}>Log out</Text>
+                </TouchableOpacity>
             </View>
             {deleteMessage}
-            <TouchableOpacity style={styles.buttonDelete} onPress={() => deleteUser()}  ><Text style={styles.buttontextDelete}>Delete Acount</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.buttonDelete} onPress={() => deleteUser()}>
+
+                <Text style={styles.buttontextDelete}>Delete Acount</Text>
+
+            </TouchableOpacity>
 
             <Modal
                 animationType="slide"
@@ -70,9 +76,8 @@ export default function Settings() {
                                 onChangeText={setUppdateName}
                             />
                         </View>
+
                         <View>
-
-
                             <Text style={styles.text}>lastname</Text>
                             <TextInput
                                 placeholderTextColor={'white'}
@@ -82,6 +87,7 @@ export default function Settings() {
                                 onChangeText={setUppdateLastName}
                             />
                         </View>
+
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
@@ -91,17 +97,17 @@ export default function Settings() {
                         >
                             <Text style={styles.buttontext}>Save Changes</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
                             <Text style={styles.buttontext}>Cancel</Text>
                         </TouchableOpacity>
+
                     </LinearGradient>
                 </View>
             </Modal>
-
-
         </LinearGradient>
     )
 }
@@ -214,7 +220,7 @@ const styles = StyleSheet.create({
 
 
     },
-    buttoncontainer:{
+    buttoncontainer: {
 
         display: 'flex',
         flexDirection: 'row',

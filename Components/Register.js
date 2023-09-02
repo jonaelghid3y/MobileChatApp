@@ -1,11 +1,15 @@
 import React from 'react'
-import { View,TextInput,Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View,TextInput,Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard  } from 'react-native'
 import { useContext, useState } from 'react';
 import { AuthContext } from './Context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Register() {
+
+    
+    const navigation = useNavigation();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,11 +17,17 @@ export default function Register() {
     const { handleRegister,registerMessage,succsesMessage} = useContext(AuthContext);
   return (
 
-    <LinearGradient colors={['#1c96c5', '#84cdee', ]} start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 1 }} style={styles.container}>
+    <KeyboardAvoidingView 
+    behavior={Platform.OS === "ios" ? "padding" : "height"} 
+    style={{flex: 1}}
+>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <LinearGradient colors={['#1c96c5', '#84cdee']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} style={styles.container}>
             <Text style={styles.title}>CHAPP</Text>
-            <FontAwesome5 style={styles.icon} name="user" size={100} color="white" />
-            <FontAwesome5 style={styles.iconShadow} name="user-alt" size={90} color="black" />
+            <View style={styles.iconContainer}>
+            <FontAwesome5 style={styles.icon} name="user" size={130} color="white" />
+            <FontAwesome5 style={styles.iconShadow} name="user-alt" size={120} color="black" />
+            </View>
            
             <View style={styles.formcontainer}>
                 <Text style={styles.text}>REGISTER</Text>
@@ -41,37 +51,20 @@ export default function Register() {
             {succsesMessage}
 
             <TouchableOpacity style={styles.button} onPress={() => handleRegister(username, password)} ><Text style={styles.buttontext}>Sign upp</Text></TouchableOpacity>
+            <TouchableOpacity style={{marginTop: 20}}  onPress={() => navigation.navigate('Login')} ><Text style={styles.register}>Back</Text></TouchableOpacity>
            
         </LinearGradient>
+        </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: 415,
-        backgroundColor: 'lightgrey',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 10
+        justifyContent: 'center',
+        paddingHorizontal: 20
     },
-    error:{
-        color: '#D8000C',
-        backgroundColor: '#FFBABA',
-        padding: 10
-
-    },
-    succses:{
-    
-        color: '#270',
-        backgroundColor: '#DFF2BF',
-     
-        
-       
-       
-      
- 
-    }
-    ,
     formcontainer: {
         display: 'flex',
 
@@ -85,10 +78,10 @@ const styles = StyleSheet.create({
         width: 300,
         shadowColor: "#000",
         borderColor: 'white',
-        borderWidth: 2,
+        borderWidth: 1.5,
         paddingLeft: 10,
         color: 'white',
-        
+
     },
     formpassword: {
 
@@ -102,10 +95,20 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: 'white',
     },
+    error: {
+
+        color: 'red'
+
+    },
+    iconContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 70,
+        marginBottom: 85,
+    },
     icon: {
-        marginTop: 40,
-        marginBottom: 80,
-        zIndex: 999 ,
+        
+        zIndex: 999,
         shadowColor: "#000",
         shadowOffset: {
             width: 4,
@@ -116,12 +119,14 @@ const styles = StyleSheet.create({
 
     },
     iconShadow: {
-        position: 'absolute',
-        top: 190,
-        right: 145,
-        opacity: 0.15,
-        color:'#C800FF',
         
+        position: 'absolute',
+        top: 30,
+        left: 20 ,
+       
+        opacity: 0.15,
+        color: '#C800FF',
+
         shadowColor: "#000",
         shadowOffset: {
             width: 4,
@@ -138,7 +143,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         fontFamily: 'Nico',
-        marginTop: 80,
+        marginBottom: 0,
+        
     },
     text: {
         color: 'white',
@@ -146,24 +152,25 @@ const styles = StyleSheet.create({
 
 
     },
-    register:{
+    register: {
         color: 'white',
         textDecorationLine: 'underline'
-        
+
 
     },
     button: {
-        marginTop: 90,
+        marginTop: 120,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-     
-        
+
+
+
         fontSize: 30,
-       
+
         width: 200,
         height: 50,
-       
+
         backgroundColor: 'white',
         borderRadius: 10,
         fontFamily: '',
@@ -180,8 +187,8 @@ const styles = StyleSheet.create({
     }
     ,
     buttontext: {
-     
-        
+
+
         fontSize: 30,
         textAlign: 'center',
         color: '#177ca4',

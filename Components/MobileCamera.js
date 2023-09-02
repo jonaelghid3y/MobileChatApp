@@ -1,17 +1,17 @@
 import React from 'react'
-import { View,Text,StyleSheet, TouchableOpacity,SafeAreaView} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Imagepreview from './Imagepreview';
 import * as MediaLibrary from 'expo-media-library';
-import { Entypo, FontAwesome, Feather } from '@expo/vector-icons'; 
+import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 export default function MobileCamera() {
 
   const navigation = useNavigation();
 
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [hasMediaPermission, setHasMediaPermission] = useState(null);
   const cameraRef = useRef(null);
@@ -25,11 +25,9 @@ export default function MobileCamera() {
       setHasCameraPermission(CameraPermissions.status == 'granted')
       const MediaPermissions = await MediaLibrary.requestPermissionsAsync();
       setHasMediaPermission(MediaPermissions.status == 'granted')
-      // console.log(CameraPermissions);
-      // // console.log(MediaPermissions);
     })();
-  },[]);
- 
+  }, []);
+
   const takePicture = async () => {
     if (cameraRef.current) {
       try {
@@ -41,29 +39,24 @@ export default function MobileCamera() {
       }
     }
   }
-  const deletePicture = async ()=>{
 
+  const deletePicture = async () => {
     setPicture(null)
-
     console.log('raderad')
-
-    
-
   }
 
   function toggleCameraType() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-
   }
-   const toggleFlash = () => {
+
+  const toggleFlash = () => {
     setFlash(current => (current === FlashMode.off ? FlashMode.on : FlashMode.off));
   }
+
   const savePicture = async () => {
     try {
-      // Create an asset out fo the picture
       const asset = await MediaLibrary.createAssetAsync(picture.uri)
-      
-      // Retrieve an existing album
+
       const album = await MediaLibrary.getAlbumAsync('Expo');
 
       if (album == null) {
@@ -80,38 +73,39 @@ export default function MobileCamera() {
       console.log(error)
     }
   }
+  
   if (picture !== null) {
-    return(
-    <Imagepreview deletePicture={deletePicture} savePicture={savePicture} picture={picture}/>
+    return (
+      <Imagepreview deletePicture={deletePicture} savePicture={savePicture} picture={picture} />
     )
 
-  } 
-  else{
-    return(
+  }
+  else {
+    return (
       <SafeAreaView style={styles.container}>
-      <Camera 
-        style={styles.cameraContainer} 
-        type={type} 
-        flashMode={flash} 
-        ref={cameraRef}
-      >
-        <View style={styles.buttonsTopContainer}>
-          <TouchableOpacity style={styles.generalButton} >
-            <FontAwesome name="refresh" size={18} color="white" onPress={() => toggleCameraType()}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.generalButton}>
-            <Entypo name="flash" size={18} color={flash === FlashMode.on ? "yellow" : "white"} onPress={() => toggleFlash()}/>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonsBottomContainer}>
-          <TouchableOpacity style={styles.cameraButton} onPress={() => takePicture()}>
-            <Entypo name="camera" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
-      </Camera>
-    </SafeAreaView>
-  )
-}
+        <Camera
+          style={styles.cameraContainer}
+          type={type}
+          flashMode={flash}
+          ref={cameraRef}
+        >
+          <View style={styles.buttonsTopContainer}>
+            <TouchableOpacity style={styles.generalButton} >
+              <FontAwesome name="refresh" size={18} color="white" onPress={() => toggleCameraType()} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.generalButton}>
+              <Entypo name="flash" size={18} color={flash === FlashMode.on ? "yellow" : "white"} onPress={() => toggleFlash()} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonsBottomContainer}>
+            <TouchableOpacity style={styles.cameraButton} onPress={() => takePicture()}>
+              <Entypo name="camera" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      </SafeAreaView>
+    )
+  }
 }
 const styles = StyleSheet.create({
   container: {

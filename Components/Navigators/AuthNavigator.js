@@ -7,6 +7,7 @@ const Stack = createStackNavigator();
 export default function AuthNavigator({navigaton}) {
   return (
     <Stack.Navigator screenOptions={{
+      headerShown: false,
       headerStyle: {
         backgroundColor: '#177ca4',
       },
