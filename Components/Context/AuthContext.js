@@ -15,10 +15,9 @@ export const AuthContext = createContext()
 
 
     export const AuthProvider = ({ children }) => {
+    const [sentMessages, setSentMessages] = useState('');
     const [chatMessages, setChatMessages] = useState({});
-
     const navigation = useNavigation();
-
     const [accessToken, setAccessToken] = useState(null);
     const [registerMessage, setResgisterMessage] = useState('');
     const [succsesMessage, setSuccsesMessage] = useState('');
@@ -129,7 +128,7 @@ export const AuthContext = createContext()
 
                 setFirstName(data.data.firstname)
                 setLastName(data.data.lastname)
-                console.log(firstname,lastLame)
+                console.log(firstName,lastName)
 
             }
             
@@ -215,6 +214,58 @@ export const AuthContext = createContext()
         }
     }
 
+    const sendMessages = async (messageContent) => {
+        try {
+            const response = await fetch('https://chat-api-with-auth.up.railway.app/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                    content: messageContent 
+                })
+            });
+
+        
+        
+            const data = await response.json();
+
+            if (data.status === 201) {
+                setSentMessages(data.data);
+            } else {
+                console.log('Unexpected response format:', data);
+            }
+          
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const deleteMessage = async (messageID) => {
+        try {
+          const response = await fetch(`https://chat-api-with-auth.up.railway.app/messages/${messageID}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
+            },
+          });
+      
+          const data = await response.json();
+      
+          if (data.status === 200) {
+            console.log('Message deleted successfully.');
+            setChatMessages((prevChatMessages) =>
+            prevChatMessages.filter((message) => message._id !== messageID)
+      );
+          } else {
+            console.log('Failed to delete the message:', data.message);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
     
 
     useEffect(() => {
@@ -227,6 +278,8 @@ export const AuthContext = createContext()
     return (
 
         <AuthContext.Provider value={{
+            deleteMessage,
+            sendMessages,
             chatMessages, 
             handleMessages,
             accessToken,
