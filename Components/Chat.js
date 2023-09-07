@@ -17,17 +17,13 @@ function Chat() {
     handleMessages,
     chatMessages,
     sendMessages,
+    userId,
     deleteMessage,
-    userId, // Assuming you have the user's ID in the AuthContext
   } = useContext(AuthContext);
 
   useEffect(() => {
     handleMessages();
   }, []);
-
-
-
- 
 
   const renderMessage = ({ item }) => {
     const dateObject = new Date(item.date);
@@ -39,30 +35,33 @@ function Chat() {
       day < 10 ? "0" : ""
     }${day}`;
 
-    const handleLongPress = () => {
-      if (item.senderId === userId) {
-        // Show the delete button only if the message was sent by you
-        setLongPressedMessage(item._id);
-      }
-    };
-
-    const handleDelete = async () => {
+    const handleDelete = async (id) => {
       try {
-        await deleteMessage(item._id);
-        setLongPressedMessage(null);
+        if (id === userId) {
+          await deleteMessage(item.user._id); 
+
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
+    const isSentByUser = item?.user?._id === userId;
+    const bubbleStyle = isSentByUser ? styles.sentBubble : styles.receivedBubble;
+    const textAlignment = isSentByUser ? "right" : "left";
+    const textColor = isSentByUser ? "white" : "black";
+
     return (
-      <TouchableWithoutFeedback onLongPress={handleLongPress}>
-        <View style={styles.item}>
-          <Text style={styles.title}>{item.content}</Text>
+      <TouchableWithoutFeedback onLongPress={handleDelete}>
+        <View style={[styles.item, bubbleStyle]}>
+          <Text style={[styles.title, { textAlign: textAlignment, color: textColor }]}>
+            {item.content}
+          </Text>
           <Text>{formattedDate}</Text>
-          
-          {item.senderId === userId && longPressedMessage === item._id && (
-            <TouchableOpacity onPress={handleDelete}>
+
+          {isSentByUser && (
+            <TouchableOpacity onPress={() =>(handleDelete(item.user._id)
+          )}>
               <Text style={styles.deleteButton}>Delete</Text>
             </TouchableOpacity>
           )}
@@ -72,7 +71,6 @@ function Chat() {
   };
 
   const [message, setMessage] = useState("");
-  const [longPressedMessage, setLongPressedMessage] = useState(null);
 
   const handleSendMessage = async () => {
     if (message.trim() === "") return;
@@ -88,7 +86,7 @@ function Chat() {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={chatMessages}
+        data={Object.values(chatMessages)} // Convert the object to an array for rendering
         renderItem={renderMessage}
         keyExtractor={(item) => item._id}
       />
@@ -117,10 +115,18 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#f9c2ff",
+    borderRadius: 8,
   },
   title: {
     fontSize: 16,
+  },
+  sentBubble: {
+    backgroundColor: "#4CAF50",
+    alignSelf: "flex-end",
+  },
+  receivedBubble: {
+    backgroundColor: "#f9c2ff",
+    alignSelf: "flex-start",
   },
   inputContainer: {
     flexDirection: "row",
