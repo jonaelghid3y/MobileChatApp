@@ -4,7 +4,7 @@ import { AuthContext } from '../Context/AuthContext';
 import { useContext } from 'react';
 
 const CustomeDrawer = () => {
-    const { handleLogout, } = useContext(AuthContext);
+    
   return (
       
       function CustomDrawerContent(props) {
@@ -13,10 +13,7 @@ const CustomeDrawer = () => {
         return (
             <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
-            <DrawerItem
-              label="logout"
-                onPress={() => handleLogout}
-            />
+           
           </DrawerContentScrollView>
         );
       }

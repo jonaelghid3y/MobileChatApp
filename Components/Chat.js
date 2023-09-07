@@ -25,6 +25,10 @@ function Chat() {
     handleMessages();
   }, []);
 
+
+
+ 
+
   const renderMessage = ({ item }) => {
     const dateObject = new Date(item.date);
     const year = dateObject.getFullYear();
