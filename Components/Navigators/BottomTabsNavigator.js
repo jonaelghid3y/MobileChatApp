@@ -11,6 +11,7 @@ export function BottomTabNavigator() {
   return (
     <Tab.Navigator screenOptions={{
       headerShown: false,
+      
     }}>
       <Tab.Screen name="Usersettings" component={Settings}
         options={{
@@ -18,7 +19,7 @@ export function BottomTabNavigator() {
           tabBarIcon: ({ focused}) => (
            
             <View style={styles.icons}>
-              <FontAwesome5 name={focused ? 'user-alt' : 'user'} size={20} color="#177ca4" />
+              <FontAwesome5 name={focused ? 'user-alt' : 'user'} size={20} color="#BE93E4" />
             </View>
           ),
         }} />
@@ -27,7 +28,7 @@ export function BottomTabNavigator() {
           tabBarLabel: '',
           tabBarIcon: ({ focused}) => (
             <View>
-              <Ionicons name={focused ? 'camera' : 'camera-outline'} size={30} color="#177ca4" />
+              <Ionicons name={focused ? 'camera' : 'camera-outline'} size={30} color="#BE93E4" />
             </View>
           ),
         }} />

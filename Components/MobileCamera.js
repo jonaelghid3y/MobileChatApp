@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
 
   generalButton: {
-    backgroundColor: '#177ca4',
+    backgroundColor: '#BE93E4',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   cameraButton: {
-    backgroundColor: '#177ca4',
+    backgroundColor: '#BE93E4',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'white',
