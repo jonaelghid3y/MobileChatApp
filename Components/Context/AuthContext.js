@@ -246,7 +246,9 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       if (data.status === 201) {
+       
         setSentMessages(data.data);
+        handleMessages()
       } else {
         console.log('Unexpected response format:', data);
       }
@@ -268,7 +270,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       console.log(data)
       if (data.status === 200) {
-        console.log();
+    
         setChatMessages((prevChatMessages) =>
           prevChatMessages.filter((message) => message._id !== messageID)
         );

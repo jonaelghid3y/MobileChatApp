@@ -38,7 +38,7 @@ function Chat() {
     const handleDelete = async (id) => {
       try {
         if (id === userId) {
-          await deleteMessage(item.user._id); 
+          await deleteMessage(item._id); 
 
         }
       } catch (error) {
