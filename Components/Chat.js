@@ -1,53 +1,107 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { AuthContext } from "./Context/AuthContext";
 
 function Chat() {
-  const { handleMessages, chatMessages } = useContext(AuthContext);
-
-
-  
+  const {
+    handleMessages,
+    chatMessages,
+    sendMessages,
+    userId,
+    deleteMessage,
+  } = useContext(AuthContext);
 
   useEffect(() => {
-    // async function fetchMessages() {
-    //   try {
-    //     const messages = await handleMessages();
-    //     // setChatMessages(messages.data); // Assuming messages.data contains the chat messages array
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
     handleMessages();
   }, []);
-
-
-
- 
 
   const renderMessage = ({ item }) => {
     const dateObject = new Date(item.date);
     const year = dateObject.getFullYear();
-    const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
+    const month = dateObject.getMonth() + 1;
     const day = dateObject.getDate();
-  
-    const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-  
+
+    const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
+
+    const handleDelete = async (id) => {
+      try {
+        if (id === userId) {
+          await deleteMessage(item.user._id); 
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const isSentByUser = item?.user?._id === userId;
+    const bubbleStyle = isSentByUser ? styles.sentBubble : styles.receivedBubble;
+    const textAlignment = isSentByUser ? "right" : "left";
+    const textColor = isSentByUser ? "white" : "black";
+
     return (
-      <TouchableOpacity style={styles.item}>
-        <Text style={styles.title}>{item.content}</Text>
-        <Text>{formattedDate}</Text>
-      </TouchableOpacity>
+      <TouchableWithoutFeedback onLongPress={handleDelete}>
+        <View style={[styles.item, bubbleStyle]}>
+          <Text style={[styles.title, { textAlign: textAlignment, color: textColor }]}>
+            {item.content}
+          </Text>
+          <Text>{formattedDate}</Text>
+
+          {isSentByUser && (
+            <TouchableOpacity onPress={() =>(handleDelete(item.user._id)
+          )}>
+              <Text style={styles.deleteButton}>Delete</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
     );
   };
-  
+
+  const [message, setMessage] = useState("");
+
+  const handleSendMessage = async () => {
+    if (message.trim() === "") return;
+
+    try {
+      await sendMessages(message);
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={chatMessages}
+        data={Object.values(chatMessages)} // Convert the object to an array for rendering
         renderItem={renderMessage}
-        keyExtractor={(item) => item._id} 
+        keyExtractor={(item) => item._id}
       />
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Type your message..."
+          value={message}
+          onChangeText={setMessage}
+        />
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <Text style={styles.sendButtonText}>Send</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -61,10 +115,49 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#f9c2ff",
+    borderRadius: 8,
   },
   title: {
     fontSize: 16,
+  },
+  sentBubble: {
+    backgroundColor: "#4CAF50",
+    alignSelf: "flex-end",
+  },
+  receivedBubble: {
+    backgroundColor: "#f9c2ff",
+    alignSelf: "flex-start",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderColor: "#ccc",
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  sendButton: {
+    marginLeft: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: "#4CAF50",
+    borderRadius: 8,
+  },
+  sendButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    color: "red",
+    fontWeight: "bold",
   },
 });
 
