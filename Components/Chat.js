@@ -130,13 +130,20 @@ const styles = StyleSheet.create({
   sentBubble: {
     backgroundColor: "#13C9FF",
     alignSelf: "flex-end",
-    flexWrap: 'wrap',
+    maxWidth: '55%',
+    borderRadius: 8,
+    padding: 8,
+    marginTop: 8,
   },
   receivedBubble: {
     backgroundColor: "#CCE9F1",
     alignSelf: "flex-start",
-    flexWrap: 'wrap',
+    maxWidth: '55%',
+    borderRadius: 8,
+    padding: 8,
+    marginTop: 8,
   },
+  
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
