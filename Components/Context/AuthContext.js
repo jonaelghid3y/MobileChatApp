@@ -270,7 +270,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       console.log(data)
       if (data.status === 200) {
-    
+        handleMessages()
         setChatMessages((prevChatMessages) =>
           prevChatMessages.filter((message) => message._id !== messageID)
         );
@@ -307,6 +307,7 @@ export const AuthProvider = ({ children }) => {
         setResgisterMessage,
         logginMessage,
         setLogginMessage,
+        deleteMessages,
         succsesMessage,
         firstName,
         lastName,

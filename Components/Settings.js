@@ -10,9 +10,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Settings() {
 
-    const { handleLogout, getUserInfo, handleUserSettings, firstName, lastName, uppdateName, setUppdateName, uppdateLastName, setUppdateLastName, deleteUser, deleteMessage } = useContext(AuthContext);
+    const { handleLogout, getUserInfo, handleUserSettings, firstName, lastName, uppdateName, setUppdateName, uppdateLastName, setUppdateLastName, deleteUser, deleteMessages } = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
-
+    console.log(deleteMessages)
     getUserInfo();
 
     return (
@@ -48,7 +48,9 @@ export default function Settings() {
                     <Text style={styles.buttontext}>Log out</Text>
                 </TouchableOpacity>
             </View>
-            {deleteMessage}
+
+            {deleteMessages}
+
             <TouchableOpacity style={styles.buttonDelete} onPress={() => deleteUser()}>
 
                 <Text style={styles.buttontextDelete}>Delete Acount</Text>
