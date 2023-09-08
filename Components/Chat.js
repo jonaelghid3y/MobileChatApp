@@ -92,7 +92,7 @@ function Chat() {
       >
     <SafeAreaView style={styles.container}>
         <FlatList
-          data={Object.values(chatMessages)} // Convert the object to an array for rendering
+          data={Object.values(chatMessages)} 
           renderItem={renderMessage}
           keyExtractor={(item) => item._id}
         />
