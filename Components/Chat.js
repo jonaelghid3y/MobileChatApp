@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from "react-native";
 import { AuthContext } from "./Context/AuthContext";
 
@@ -84,25 +85,31 @@ function Chat() {
   };
 
   return (
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{flex:1}}
+      keyboardVerticalOffset={Platform.select({ ios: 100, android: 30 })}
+      >
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={Object.values(chatMessages)} // Convert the object to an array for rendering
-        renderItem={renderMessage}
-        keyExtractor={(item) => item._id}
-      />
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Type your message..."
-          value={message}
-          onChangeText={setMessage}
+        <FlatList
+          data={Object.values(chatMessages)} // Convert the object to an array for rendering
+          renderItem={renderMessage}
+          keyExtractor={(item) => item._id}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Type your message..."
+            value={message}
+            onChangeText={setMessage}
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -121,12 +128,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sentBubble: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#13C9FF",
     alignSelf: "flex-end",
+    flexWrap: 'wrap',
   },
   receivedBubble: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: "#CCE9F1",
     alignSelf: "flex-start",
+    flexWrap: 'wrap',
   },
   inputContainer: {
     flexDirection: "row",
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#0076E6",
     borderRadius: 8,
   },
   sendButtonText: {
